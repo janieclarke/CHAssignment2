@@ -16,51 +16,72 @@ namespace Assignment2
             //allow user to be able to search person by name
             //console app will print off stats of each person found that matches search
 
-            string[,] person = new string[,] 
-            {
-                {"Janie","Clarke","8/19/1991","Dallas","TX","75205"},
-                {"Hagan","McPhail","8/14/1991","Lonestar","MS","30000"},
-                {"Bill","Wettingfeld","1/1/1989","Plano","TX","75023"},
-                {"Steve","Sanders","2/6/1975","Coppell","TX","75019"},
-                {"Steve","Wallace","9/6/1975","Fort Worth","TX","76101"}
-            };
+            //string[,] person = new string[,] 
+            //{
+            //    {"Janie","Clarke","8/19/1991","Dallas","TX","75205"},
+            //    {"Hagan","McPhail","8/14/1991","Lonestar","MS","30000"},
+            //    {"Bill","Wettingfeld","1/1/1989","Plano","TX","75023"},
+            //    {"Steve","Sanders","2/6/1975","Coppell","TX","75019"},
+            //    {"Steve","Wallace","9/6/1975","Fort Worth","TX","76101"}
+            //};
+
+            List<Person> people = GetPeople();
 
             Console.Write("Search First Names For: ");
 
-            string userSearch = Convert.ToString(Console.ReadLine());
-            
-            bool boolean = false;
+            string userSearchTerm = Convert.ToString(Console.ReadLine());
 
-            for (int i = 0; i < person.GetLength(0); i++)
+            bool foundMatch = false;
+
+            foreach (Person person in people)
             {
-                for (int j = 0; j < person.GetLength(1); j++)
+                string input = userSearchTerm.ToUpper();
+
+                string firstName = person.FirstName.ToUpper();
+                string lastName = person.LastName.ToUpper();
+
+                if (firstName.Contains(input) || lastName.Contains(input))
                 {
+                    Console.Write(String.Format("{0} {2} {3} {1} {4}",
+                        person.FirstName,
+                        person.LastName,
+                        person.City,
+                        person.State,
+                        person.Zip));
 
-                    string input = userSearch.ToUpper();
-
-                    string firstName = Convert.ToString(person[i, 0]).ToUpper();
-                    
-                    if (firstName.Contains(input))
-                    {
-
-                        Console.Write(person[i, j] + " ");
-                        boolean = true;
-                    }   
-                    
+                    foundMatch = true;
                 }
-                
-                if (boolean == true)
+
+                if (foundMatch)
                 {
                     Console.WriteLine();
                 }
 
-                boolean = false;
-                
+                foundMatch = false;
             }
 
             Console.WriteLine("Press any key to exit.");
             Console.ReadKey();
 
+        }
+
+        private static List<Person> GetPeople()
+        {
+            var people = new List<Person>();
+
+            Person janie = new Person()
+            {
+                FirstName = "Janie",
+                LastName = "Clarke",
+                DateOfBirth = DateTime.Now,
+                City = "Dallas",
+                State = "TX",
+                Zip = "75305"
+            };
+
+            people.Add(janie);
+
+            return people;
         }
 
     }
